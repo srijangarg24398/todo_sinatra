@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>To Do</title>
+</head>
+<body>
+	<div>
+		<h1 align="center">
+			To Do list
+		</h1>
+	</div>
+	<div>
+		<p align="right">
+			<%= curr_time %>
+		</p>
+	</div>
+	<form action="/add" method="post">
+		<input type="text" name="input_task">
+		<input type="submit" value="Add Task">
+	</form>
+	<br>
+	
+	<div>
+		<div>
+			<% send_task.each do |todo| %>
+			<ul>
+				<li>
+				<% if todo.done %>
+				<strike>
+				<% end %>
+				<font color=
+				<% if todo.urgent==true %>
+					<% if todo.important==true %>"red"
+					<% puts "aa gya" %>
+					<%else%>"orange"
+					<% end %>
+				<%else%>
+					<% if todo.important==true %>"yellow"
+					<%else%>"green"
+					<% end %>
+				<% end %>
+					><%= todo.task %>
+				</font>
+				</strike>
+					<form action="/done" method="post">
+						<input type="hidden" name="marked_task" value="<%= todo.task %>">
+						<% if todo.done %>
+							<input type="submit" value="Undone">
+						<% else %>
+							<input type="submit" value="Done">
+						<% end %>
+					</form>
+					<form action="/check" method="post">
+						<input type="hidden" name="marked_task" value="<%= todo.task %>">
+						<input type="checkbox" name="urg" value="urgent task">urgent
+						<input type="checkbox" name="imp" value="important task">important
+						<input type="submit" value="Set Priority">
+					</form>
+				</li>
+			</ul>
+			<% end %>
+		</div>
+		<div>
+			<h4>To Do now</h4>
+		</div>
+	</div>
+	
+</body>
+</html>

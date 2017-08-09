@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>To Do</title>
+</head>
+<body>
+	<div>
+		<h1 align="center">
+			<strong><u>To Do list</u></strong>
+		</h1>
+	</div>
+	<div>
+		<p align="right">
+			<%= curr_time %>
+		</p>
+	</div>
+	<br>
+	
+	<div>
+		<div id="one">
+		<form action="/add" method="post">
+			<input type="text" name="input_task" placeholder="Kaam Bata" maxlength="10" required>
+			<input type="submit" value="Add Task">
+		</form>
+		</div>
+	
+		<div class ="lay" id="f_div">
+			<% send_task.each do |todo| %>
+			<ul>
+				<% if todo.done %>
+				<li class="strike-through">
+				<% else %>
+				<li>
+				<% end %>
+				<% if todo.urgent==true %>
+					<% if todo.important==true %>
+						<font id="red">
+					<%else%>
+						<font id="orange">
+					<% end %>
+				<%else%>
+					<% if todo.important==true %>
+						<font id="yellow">
+					<%else%>
+						<font id="green">
+					<% end %>
+				<% end %>
+					<%= todo.task %>
+				</font>
+					<form action="/done" method="post">
+						<input type="hidden" name="marked_task" value="<%= todo.task %>">
+						<% if todo.done %>
+							<input type="submit" value="Undone">
+						<% else %>
+							<input type="submit" value="Done">
+						<% end %>
+					</form>
+					<form action="/check" method="post">
+						<input type="hidden" name="marked_task" value="<%= todo.task %>">
+						<input type="checkbox" name="urg" value="urgent task">urgent
+						<input type="checkbox" name="imp" value="important task">important
+						<input type="submit" value="Set Priority">
+					</form>
+				</li>
+			</ul>
+			<% end %>
+		</div>
+		<div class="lay" id="s_div">
+				<div id="newbie">
+				<h4 align="center"><u>To Do now</u></h4>
+				<% send_task.each do |todo| %>
+				<ul>
+					<% if todo.urgent %>
+						<li>
+							<%= todo.task %>
+						</li>
+					<% end %>
+				</ul>
+				<% end %>
+			</div>
+			<div id="newbie">
+				<h4 align="center"><u>Kar Lena</u></h4>
+				
+				<% send_task.each do |todo| %>
+				<ul>
+					<% if todo.important&&!todo.urgent%>
+						<li>
+							<%= todo.task %>
+						</li>
+					<% end %>
+				</ul>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div id="col_cod">
+		<h3 align="center"><u>Color Codes</u></h3>
+		<span id="red">=> Urgent and Important </span>
+		<span id="orange"> => Only Urgent </span>
+		<span id="yellow"> => Only Important </span>
+		<span id="green"> => Neither Urgent Nor Important</span>
+	</div>
+<style type="text/css">
+	.strike-through 
+	{
+		text-decoration: line-through;
+	}
+	#red{color:red;}
+	#orange{color:orange;}
+	#yellow{color:yellow;}
+	#green{color:green;}
+	.lay
+	{
+		width: 50%;
+		margin:10px;
+		display: inline-block;
+	}
+	#one{margin-left: 40px;}
+	#s_div
+	{
+		border: 2px brown solid;
+		border-radius: 30px;
+		background-color: #FFFF60;
+		margin-left: 40px;
+		width: 30%;
+		position: relative;
+	}
+	#newbie
+	{
+		border: 2px brown solid;
+		border-radius: 30px;
+		
+	}
+	#col_cod
+	{
+		border: 2px black solid;
+	}
+</style>
+</body>
+</html>
